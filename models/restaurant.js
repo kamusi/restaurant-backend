@@ -9,26 +9,67 @@ var ingredientSchema = new Schema({
        type: String,
        required: true
    },
-    descriptive_term: {
-        type: String
-    }
+    descriptive_term: [String]
 });
 
-//The schema for one element of the menu.
-var menuElemSchema = new Schema({
-    section: {
-        type: String,
-        required: true
-    },
-    subsection: {
-        type: String
-    },
-    house_name: {
+                    
+                    
+//menu element
+var elementSchema = new Schema ({
+    name: {
         type: String,
         required: true,
         unique: true
     },
+    description: {
+        type: String,
+        required: true
+    },
+    nbPeople: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 5
+    },
+    labels: {
+        spicy: Boolean,
+        vegetarian: Boolean,
+        long: Boolean
+    },
+    meal: {
+        breakfast: Boolean,
+        lunch: Boolean,
+        dinner: Boolean
+    },
+    day: {
+        monday: Boolean,
+        tuesday: Boolean,
+        wednesday: Boolean,
+        thursday: Boolean,
+        friday: Boolean,
+        saturday: Boolean,
+        sunday: Boolean
+    },
     ingredients: [ingredientSchema]
+});
+
+//subsection
+var subsectionSchema = new Schema ({
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    elements: [elementSchema]
+});
+//The schema for one section.
+var sectionSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    subsections: [subsectionSchema]
 });
 //The schema for a restaurant, which is represented by its name and its menu. Some more stuff might be needed; localisation ?
 var restaurantSchema = new Schema({
@@ -36,11 +77,11 @@ var restaurantSchema = new Schema({
         type: String,
         required: true
     },
-    menu: [menuElemSchema]
+    menu: [sectionSchema]
 });
 
 //create a model from the schema
-var Restaurants = mongoose.model('Restaurant', restaurantSchema);
+var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
 // make this available the application
-module.exports = Restaurants;
+module.exports = Restaurant;

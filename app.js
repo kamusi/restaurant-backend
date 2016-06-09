@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var kamusiRoute = require('./routes/kamusi');
+var submitRoute = require('./routes/submit');
 
 var app = express();
 
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/kamusi', kamusiRoute);
+app.use('/submit', submitRoute);
 
 
 // catch 404 and forward to error handler
